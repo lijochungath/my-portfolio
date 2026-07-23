@@ -2,7 +2,7 @@ import { CaseStudyData } from "./types";
 
 export const masc: CaseStudyData = {
   title: "Enterprise Data Warehouse Modernization",
-
+  description:"Enterprise Data Warehouse Modernization",
   client: "Manitoba Agricultural Services Corporation (MASC)",
 
   duration: "24 Months",

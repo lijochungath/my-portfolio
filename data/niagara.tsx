@@ -2,7 +2,7 @@ import { CaseStudyData } from "./types";
 
 export const niagara: CaseStudyData = {
   title: "5-Year Strategic Database & Infrastructure Roadmap",
-
+description:"5-Year Strategic Database & Infrastructure Roadmap",
   client: "Niagara Region (Regional Municipality of Niagara)",
 
   duration: "16 Months",
