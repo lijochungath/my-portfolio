@@ -1,15 +1,8 @@
 import React from "react";
-
-interface Study {
-  title: string;
-  description: string;
-  client?: string;
-  industry?: string;
-  technologies?: string[];
-}
+import type { CaseStudyData } from "@/data/types";
 
 interface Props {
-  study?: Study;
+  study?: CaseStudyData;
 }
 
 export default function CaseStudyLayout({ study }: Props) {
