@@ -39,12 +39,7 @@ export default function CaseStudyLayout({ study }: Props) {
               </div>
             )}
 
-            {study.industry && (
-              <div>
-                <span className="font-semibold">Industry:</span> {study.industry}
-              </div>
-            )}
-          </div>
+         </div>
 
           {study.technologies && study.technologies.length > 0 && (
             <div className="mt-8">
