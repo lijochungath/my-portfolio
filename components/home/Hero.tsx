@@ -36,11 +36,11 @@ export default function Hero() {
         }`}
       >
         {/* Main Introduction */}
-        <p className="mb-4 text-lg font-medium tracking-wide text-blue-400">Hello, I'm</p>
+        <p className="mb-4 text-lg font-medium tracking-wide text-blue-400">Hello, I am</p>
         <h1 className="mb-6 text-5xl font-extrabold tracking-tight text-white sm:text-7xl">
           {profileData.name}
         </h1>
-        <h2 className="mb-8 text-2xl font-bold text-slate-300 sm:text-4xl">
+        <h2 className="mb-4 text-lg font-medium tracking-wide text-blue-400">
           {profileData.role}
         </h2>
         <p className="mx-auto max-w-3xl text-lg leading-relaxed text-slate-400">
