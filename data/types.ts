@@ -18,7 +18,7 @@ export interface CaseStudyData {
   title: string;
   client: string;
   duration: string;
-
+  description: string;
   summary: string;
 
   metrics: Metric[];
