@@ -4,11 +4,11 @@ import Link from "next/link";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 
 const navItems = [
-  { title: "About", href: "#about" },
   { title: "Experience", href: "#experience" },
   { title: "Skills", href: "#skills" },
   { title: "Projects", href: "#projects" },
   { title: "Contact", href: "#contact" },
+  { title: "About", href: "#about" },
 ];
 
 export default function Navbar() {
@@ -17,12 +17,7 @@ export default function Navbar() {
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
 
         {/* Logo */}
-        <Link
-          href="/"
-          className="text-xl font-bold tracking-wide text-white"
-        >
-          Lijo<span className="text-blue-500">.</span>
-        </Link>
+      
 
         {/* Desktop Menu */}
         <nav className="hidden gap-8 md:flex">
@@ -49,15 +44,18 @@ export default function Navbar() {
           </a>
 
           <a
-            href="#"
+            href="https://www.linkedin.com/in/lijochungathjose/"
             className="text-slate-300 transition hover:text-blue-400"
           >
             <FaLinkedin size={20} />
           </a>
 
-          <button className="hidden rounded-lg bg-blue-600 px-5 py-2 text-sm font-semibold transition hover:bg-blue-700 md:block">
-            Resume
-          </button>
+      <Link 
+  href="#hero" 
+  className="hidden rounded-lg bg-blue-600 px-5 py-2 text-sm font-semibold text-white transition hover:bg-blue-700 md:block"
+>
+  About Me
+</Link>
 
         </div>
 
