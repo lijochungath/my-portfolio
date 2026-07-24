@@ -1,107 +1,226 @@
 "use client";
 
-import React from 'react';
-import Link from 'next/link';
+import React, { useState } from 'react';
+import dynamic from 'next/dynamic';
 
-// --- DATA ---
-const blogPosts = [
+// Dynamically import the Mermaid component with SSR disabled
+const Mermaid = dynamic(() => import('../Mermaid'), { ssr: false });
+
+// --- MERMAID DIAGRAM STRINGS (STYLED) ---
+
+const mascDiagram = `
+graph TD
+    %% Custom Styles
+    classDef source fill:#1e293b,stroke:#475569,stroke-width:2px,color:#f8fafc,rx:8,ry:8
+    classDef staging fill:#0369a1,stroke:#0ea5e9,stroke-width:2px,color:#ffffff,rx:8,ry:8
+    classDef fabric fill:#5b21b6,stroke:#8b5cf6,stroke-width:2px,color:#ffffff,rx:8,ry:8
+    classDef gold fill:#ca8a04,stroke:#facc15,stroke-width:2px,color:#ffffff,rx:8,ry:8
+    classDef cluster fill:#0f172a,stroke:#334155,stroke-width:2px,stroke-dasharray: 5 5,rx:10,ry:10
+
+    subgraph Sources [Legacy & Cloud ERP]
+        A[AS400 & DB2]:::source
+        B[Great Plains SQL]:::source
+        E[Dynamics 365 BC]:::source
+    end
+    
+    subgraph Azure [Azure Data Factory]
+        C[(Azure SQL Staging)]:::staging
+    end
+    
+    subgraph Fabric [Microsoft Fabric Lakehouse]
+        D[Bronze Layer: Raw]:::fabric
+        F[Silver Layer: Cleansed]:::fabric
+        G[Gold Layer: Curated]:::fabric
+    end
+    
+    H[Power BI Executive Dashboards]:::gold
+
+    A --> C
+    B --> C
+    E --> C
+    C -- Delta Parquet --> D
+    D --> F
+    F --> G
+    G -- Direct Lake Mode --> H
+
+    class Sources,Azure,Fabric cluster
+`;
+
+const niagaraDiagram = `
+graph LR
+    %% Custom Styles
+    classDef source fill:#1e293b,stroke:#475569,stroke-width:2px,color:#f8fafc,rx:8,ry:8
+    classDef danger fill:#991b1b,stroke:#ef4444,stroke-width:2px,color:#ffffff,rx:8,ry:8
+    classDef process fill:#0369a1,stroke:#0ea5e9,stroke-width:2px,color:#ffffff,rx:8,ry:8
+    classDef target fill:#5b21b6,stroke:#8b5cf6,stroke-width:2px,color:#ffffff,rx:8,ry:8
+
+    A[600+ Legacy Databases]:::source --> B(Manual Fit-Gap & PII Assessment):::danger
+    B --> C{4-Pillar Methodology}:::process
+    C -->|1. Stabilize| D[Upgrade SQL 2022/2025]:::process
+    C -->|2. Standardize| E[Security & Patch Alignment]:::process
+    C -->|3. Optimize| F[Consolidate Workloads]:::process
+    C -->|4. Modernize| G{Target Cloud State}:::target
+    
+    G --> H[Azure SQL Managed Instance]:::target
+    G --> I[Microsoft Fabric Analytics]:::target
+`;
+
+const calgaryDiagram = `
+graph TD
+    %% Custom Styles
+    classDef source fill:#1e293b,stroke:#475569,stroke-width:2px,color:#f8fafc,rx:8,ry:8
+    classDef azure fill:#0369a1,stroke:#0ea5e9,stroke-width:2px,color:#ffffff,rx:8,ry:8
+    classDef func fill:#15803d,stroke:#22c55e,stroke-width:2px,color:#ffffff,rx:8,ry:8
+    classDef target fill:#5b21b6,stroke:#8b5cf6,stroke-width:2px,color:#ffffff,rx:8,ry:8
+    classDef pbi fill:#ca8a04,stroke:#facc15,stroke-width:2px,color:#ffffff,rx:8,ry:8
+    classDef cluster fill:#0f172a,stroke:#334155,stroke-width:2px,stroke-dasharray: 5 5,rx:10,ry:10
+
+    subgraph OnPrem [On-Premises Sources]
+        A[(Legacy Structured DB)]:::source
+        B[Unstructured Legal Docs]:::source
+    end
+    
+    subgraph Transform [Transformation Layer]
+        C[(Azure SQL Staging)]:::azure
+        D[Azure Functions]:::func
+    end
+    
+    subgraph Target [Microsoft Target Systems]
+        E[Azure Data Factory]:::azure
+        G[(Dynamics Dataverse)]:::target
+        F[SharePoint Document Hub]:::target
+    end
+    
+    I[Power BI Operations Dashboards]:::pbi
+
+    A --> C
+    C -- Deduplication & Profiling --> E
+    E --> G
+    B --> D
+    D -- Metadata Indexing --> F
+    G --> I
+    F --> I
+    
+    class OnPrem,Transform,Target cluster
+`;
+
+const qbakeDiagram = `
+graph TD
+    %% Custom Styles
+    classDef source fill:#1e293b,stroke:#475569,stroke-width:2px,color:#f8fafc,rx:8,ry:8
+    classDef process fill:#0369a1,stroke:#0ea5e9,stroke-width:2px,color:#ffffff,rx:8,ry:8
+    classDef databricks fill:#be123c,stroke:#f43f5e,stroke-width:2px,color:#ffffff,rx:8,ry:8
+    classDef pbi fill:#ca8a04,stroke:#facc15,stroke-width:2px,color:#ffffff,rx:8,ry:8
+    classDef cluster fill:#0f172a,stroke:#334155,stroke-width:2px,stroke-dasharray: 5 5,rx:10,ry:10
+
+    subgraph Ops [Operations & Field]
+        A[Mobile Sales Vans]:::source
+        B[Production Planning]:::source
+    end
+    
+    subgraph BigData [Big Data Engine]
+        C[Azure Databricks / Python]:::databricks
+        D[SSIS ETL Hub]:::process
+        E[(Central SQL Warehouse)]:::process
+    end
+    
+    subgraph Analytics [Analytics Layer]
+        F[SSAS Multi-Dimensional Cubes]:::process
+        G[Power BI Enterprise Gateway]:::pbi
+    end
+    
+    A --> C
+    B --> C
+    C -- Temporal Alignment --> D
+    D --> E
+    E --> F
+    F -- Incremental Refresh --> G
+    
+    class Ops,BigData,Analytics cluster
+`;
+
+// --- DATA STRUCTURE ---
+const diagramData = [
   {
-    id: "fabric-app",
-    title: "About Fabric App",
-    date: "July 12, 2026",
-    readTime: "5 min read",
-    excerpt: "Explore the architecture and enterprise capabilities of Microsoft Fabric Apps. Discover how they unify data engineering, data science, and analytics into a single, cohesive SaaS platform for modern data teams.",
+    id: 'masc',
+    title: 'MASC - Fabric Lakehouse Architecture',
+    description: 'Transition of disparate legacy systems (AS400, Great Plains) through an Azure SQL Staging layer into a unified Microsoft Fabric SaaS Lakehouse, culminating in Direct Lake Power BI reporting.',
+    chart: mascDiagram
   },
   {
-    id: "fabric-data-agents",
-    title: "About Fabric Data Agents",
-    date: "November 05, 2025",
-    readTime: "7 min read",
-    excerpt: "Dive into the world of AI-powered Data Agents within Microsoft Fabric. Learn how Copilot integrations and autonomous agents are transforming how we interact with, query, and govern enterprise data.",
+    id: 'niagara',
+    title: 'Niagara Region - Migration Assessment Flow',
+    description: 'Visualizing the manual, PII-compliant assessment process moving through the 4-pillar methodology (Stabilize, Standardize, Optimize, Modernize) toward a target state in Azure.',
+    chart: niagaraDiagram
   },
   {
-    id: "dax-context",
-    title: "Row Context and Filter Context in Power BI",
-    date: "December 18, 2023",
-    readTime: "8 min read",
-    excerpt: "Understanding the difference between Row Context and Filter Context is the absolute key to mastering DAX. In this breakdown, we explore how evaluation contexts shape your calculations and dashboards.",
+    id: 'calgary',
+    title: 'City of Calgary - Legal Data Topology',
+    description: 'Illustrating the dual-track migration path: structured database records flowing through ADF deduplication into Dataverse, while unstructured documents utilize Azure Functions for SharePoint indexing.',
+    chart: calgaryDiagram
+  },
+  {
+    id: 'qbake',
+    title: 'Qbake - Big Data Logistical Engine',
+    description: 'Mapping the integration of mobile sales van telemetry and back-dated financial entries through Databricks processing into SSAS Multi-Dimensional Cubes for near real-time BI refreshes.',
+    chart: qbakeDiagram
   }
 ];
 
-// --- COMPONENTS ---
-const SectionTitle = ({ title, subtitle }: { title: string, subtitle?: string }) => (
-  <div className="mb-12 text-center">
-    {subtitle && <p className="mb-2 text-sm font-semibold uppercase tracking-widest text-blue-500">{subtitle}</p>}
-    <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">{title}</h2>
-    <div className="mx-auto mt-4 h-1 w-20 rounded bg-blue-500"></div>
-  </div>
-);
+// --- MAIN COMPONENT ---
+export default function ArchitectureDiagrams() {
+  const [activeTab, setActiveTab] = useState(diagramData[0].id);
 
-export default function BlogSection() {
+  const activeDiagram = diagramData.find(d => d.id === activeTab);
+
   return (
-    <section id="about" className="bg-slate-950 px-6 py-20 sm:px-12 lg:px-24">
-      <div className="mx-auto max-w-7xl">
+    <section id="about" className="bg-slate-950 py-24 text-slate-300 font-sans selection:bg-blue-500/30 min-h-screen">
+      <div className="container mx-auto px-6 md:px-12 max-w-7xl">
         
-        <SectionTitle 
-          title="Insights & Articles" 
-          subtitle="My Blog" 
-        />
+        {/* Header */}
+        <div className="mb-12 text-center">
+          <p className="mb-2 text-sm font-semibold uppercase tracking-widest text-blue-500">System Design</p>
+          <h2 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+            High-Level Architecture Topologies
+          </h2>
+          <p className="mt-4 text-lg text-slate-400 max-w-2xl mx-auto">
+            Interactive, visually mapped data flows and integration points of my most complex enterprise deployments. Hover over any diagram to enlarge it.
+          </p>
+        </div>
 
-        {/* CSS Grid for Blog Cards */}
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {blogPosts.map((post) => (
-            <div
-              key={post.id}
-              className="group flex h-full flex-col rounded-2xl border border-slate-800 bg-slate-900/50 p-8 shadow-xl transition-all duration-300 hover:-translate-y-1 hover:border-blue-500/50 hover:bg-slate-800/80 hover:shadow-2xl hover:shadow-blue-900/20"
+        {/* Tab Navigation */}
+        <div className="flex flex-wrap justify-center gap-3 mb-10">
+          {diagramData.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 ${
+                activeTab === tab.id
+                  ? 'bg-blue-600 text-white shadow-lg shadow-blue-900/40 border border-blue-500'
+                  : 'bg-slate-900 text-slate-400 border border-slate-700 hover:bg-slate-800 hover:text-white'
+              }`}
             >
-              {/* Card Header: Meta Info */}
-              <div className="mb-4 flex items-center gap-3 text-xs font-medium text-slate-400">
-                <span>{post.date}</span>
-                <span className="h-1 w-1 rounded-full bg-slate-600"></span>
-                <span>{post.readTime}</span>
-              </div>
-
-              {/* Card Body: Title and Excerpt (flex-1 forces the Read More button to the bottom) */}
-              <div className="flex-1">
-                <h3 className="mb-3 text-xl font-bold leading-tight text-white transition-colors group-hover:text-blue-400">
-                  {post.title}
-                </h3>
-                <p className="text-sm leading-relaxed text-slate-300">
-                  {post.excerpt}
-                </p>
-              </div>
-
-              {/* Card Footer: Read More Link */}
-              <div className="mt-8 border-t border-slate-800/60 pt-6">
-                <Link 
-                  href={`/blog/${post.id}`} // Points to a dynamic Next.js route (e.g., /blog/fabric-app)
-                  className="inline-flex items-center text-sm font-semibold text-blue-400 transition-colors hover:text-blue-300"
-                >
-                  Read More
-                  <svg 
-                    className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" 
-                    fill="none" 
-                    stroke="currentColor" 
-                    viewBox="0 0 24 24" 
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                  </svg>
-                </Link>
-              </div>
-            </div>
+              {tab.title.split(' - ')[0]} 
+            </button>
           ))}
         </div>
-        
-        {/* Optional: View All Posts Button */}
-        <div className="mt-12 text-center">
-          <Link 
-            href="/blog" 
-            className="inline-flex rounded-full border border-slate-700 bg-slate-800/50 px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-slate-700 hover:text-blue-400"
-          >
-            View All Articles
-          </Link>
-        </div>
+
+        {/* Active Diagram Display */}
+        {activeDiagram && (
+          <div className="bg-slate-900/50 rounded-2xl border border-slate-700 p-8 shadow-2xl animate-in fade-in zoom-in-95 duration-500">
+            <div className="mb-8 border-b border-slate-800 pb-6">
+              <h3 className="text-2xl font-bold text-white mb-2">
+                {activeDiagram.title}
+              </h3>
+              <p className="text-slate-400 leading-relaxed">
+                {activeDiagram.description}
+              </p>
+            </div>
+            
+            {/* The dynamically loaded Mermaid component */}
+            <Mermaid chart={activeDiagram.chart} />
+          </div>
+        )}
 
       </div>
     </section>

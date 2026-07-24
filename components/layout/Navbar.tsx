@@ -4,10 +4,11 @@ import Link from "next/link";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 
 const navItems = [
-  { title: "Blogs", href: "#about" },
+  
   { title: "Experience", href: "#experience" },
-  { title: "Skills", href: "#skills" },
   { title: "Projects", href: "#projects" },
+  { title: "Topologies", href: "#about" },
+  { title: "Challenges", href: "#skills" },
   { title: "CaseStudies", href: "#contact" },  
 
 ];
