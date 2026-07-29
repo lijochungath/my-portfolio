@@ -1,8 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
-import AIChatBox from "../../app/ai/AIChatBox"; // Adjust path if necessary
-import RFP from "../../app/ai/rfp"; // Adjust path depending on where you saved rfp.tsx
+import AIChatBox from "../ai/AIChatBox"; // Adjust path if necessary
+import DQM from "../ai/dqm"; // Adjust path depending on where you saved rfp.tsx
+import RFP from "../ai/rfp"; // Adjust path depending on where you saved rfp.tsx
 import { Database, MessageSquare, FileText } from "lucide-react";
 
 export default function AILabIndex() {

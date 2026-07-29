@@ -8,47 +8,61 @@ interface MermaidProps {
 }
 
 export default function Mermaid({ chart }: MermaidProps) {
-  const ref = useRef<HTMLDivElement>(null);
+  const [svgContent, setSvgContent] = useState<string>('');
   const [isFullscreen, setIsFullscreen] = useState(false);
+  
+  // Generate a unique ID for this specific chart instance
+  const chartId = useRef(`mermaid-${Math.random().toString(36).substring(2, 10)}`);
 
   useEffect(() => {
-    // Initialize Mermaid
+    // 1. Initialize Mermaid
     mermaid.initialize({
-      startOnLoad: true,
-      theme: 'dark', 
+      startOnLoad: false, // CRITICAL: Prevents double-render crashes in React
+      theme: 'dark',
       securityLevel: 'loose',
       fontFamily: 'inherit',
     });
 
-    if (ref.current) {
-      // Clear the processed attribute to allow re-rendering
-      ref.current.removeAttribute('data-processed');
-      mermaid.contentLoaded();
+    // 2. Asynchronously render the chart in memory
+    const renderChart = async () => {
+      try {
+        const { svg } = await mermaid.render(chartId.current, chart);
+        setSvgContent(svg);
+      } catch (error) {
+        console.error("Mermaid syntax error:", error);
+      }
+    };
+
+    if (chart) {
+      renderChart();
     }
-  }, [chart, isFullscreen]); // Re-render when fullscreen toggles to fix SVG sizing
+  }, [chart]); // Only re-render if the chart code actually changes
 
   return (
     <>
       {/* Background blur when modal is open */}
       {isFullscreen && (
-        <div className="fixed inset-0 z-40 bg-slate-950/90 backdrop-blur-sm" onClick={() => setIsFullscreen(false)}></div>
+        <div 
+          className="fixed inset-0 z-40 bg-slate-950/90 backdrop-blur-sm" 
+          onClick={() => setIsFullscreen(false)}
+        ></div>
       )}
 
       {/* Main Container - Toggles between standard box and fixed fullscreen */}
-      <div 
+      <div
         className={`group relative flex justify-center overflow-x-auto transition-all duration-300 ease-in-out ${
-          isFullscreen 
-            ? 'fixed inset-4 z-50 items-center rounded-2xl bg-slate-900 border border-slate-700 shadow-2xl p-8 overflow-auto' 
+          isFullscreen
+            ? 'fixed inset-4 z-50 items-center rounded-2xl bg-slate-900 border border-slate-700 shadow-2xl p-8 overflow-auto'
             : 'w-full rounded-xl bg-slate-900/80 p-6 border border-slate-700 shadow-inner'
         }`}
       >
         
         {/* Enlarge / Close Button */}
-        <button 
+        <button
           onClick={() => setIsFullscreen(!isFullscreen)}
           className={`absolute top-4 right-4 p-2 rounded-lg transition-all z-50 flex items-center gap-2 text-sm font-semibold
-            ${isFullscreen 
-              ? 'bg-red-500/10 text-red-400 hover:bg-red-500/20 border border-red-500/20 opacity-100' 
+            ${isFullscreen
+              ? 'bg-red-500/10 text-red-400 hover:bg-red-500/20 border border-red-500/20 opacity-100'
               : 'bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white border border-slate-600 opacity-0 group-hover:opacity-100'
             }
           `}
@@ -68,16 +82,15 @@ export default function Mermaid({ chart }: MermaidProps) {
         </button>
 
         {/* Mermaid Target Element */}
-        <div 
-          className={`mermaid text-sm transition-all duration-500 ${
-            isFullscreen 
-              ? 'w-full max-w-6xl [&>svg]:w-full [&>svg]:h-auto [&>svg]:max-h-[80vh]' // Scales SVG up in fullscreen
+        <div
+          className={`text-sm transition-all duration-500 flex justify-center ${
+            isFullscreen
+              ? 'w-full max-w-6xl [&>svg]:w-full [&>svg]:h-auto [&>svg]:max-h-[80vh]' 
               : 'w-full [&>svg]:max-w-full [&>svg]:h-auto'
-          }`} 
-          ref={ref}
-        >
-          {chart}
-        </div>
+          }`}
+          // We safely inject the generated SVG string here
+          dangerouslySetInnerHTML={{ __html: svgContent }} 
+        />
       </div>
     </>
   );
