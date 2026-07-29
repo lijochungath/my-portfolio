@@ -73,6 +73,7 @@ export default function ArchitectureModal({
         </div>
 
         {/* Diagram Area */}
+        
 
         <div className="h-[calc(95vh-140px)] p-6">
 

@@ -2,37 +2,33 @@ import type { Project } from "../types";
 
 const masc: Project = {
   id: 1,
-  client: "Manitoba Agricultural Services Corporation (MASC)",
-  title: "Enterprise Data Warehouse Modernization",
-  role: "Senior Data Architect",
-  industry: "Agriculture / Finance",
+  client: "MASC (Manitoba Agricultural Services Corporation)",
+   menuname: "MASC",
+  category: "Data",
+  title: "Enterprise Data Warehouse ",
+  role: "Data Architect",
+  industry: "Agriculture",
   duration: "24 Months",
-  status: "current",
-  businessChallenge:[ "Financial and operational data was heavily fragmented across legacy systems",
-    "Faced strict string limitations within target databases and needed to manage high-volume historical loads", 
-    "alongside daily incremental updates without losing referential integrity.",],
-  solution: [
-    "Implemented a centralized dimension table using structural dummy records to bridge referential gaps without losing legacy transactional data.",
-    "Architected a Bronze-Silver-Gold pipeline framework that applied controlled text truncation strategies during transformation.",
-    "Designed a dynamic Watermark Table mechanism using lastModifiedDateTime to accurately orchestrate incremental data loads."
+  status: "Completed",
+businessChallenge: [
+    "Enterprise data was heavily fragmented across multiple legacy systems from different vendors, creating severe vendor lock-in.",
+    "Required a centralized Data Warehouse to consolidate data and streamline enterprise reporting from all legacy sources.",
+    "Needed a modernized financial system to handle complex Accounts Payable (AP) and Accounts Receivable (AR) operational requirements."
   ],
-  responsibilities: [
-    "Architected and delivered an end-to-end modern data warehouse platform migrating data from heterogeneous sources like Oracle and IBM DB2.",
-    "Designed an Azure SQL staging layer for secure ingestion and consolidation.",
-    "Built scalable ETL/ELT pipelines using Azure Data Factory and Databricks.",
-    "Evolved the data warehouse foundation from Azure Synapse Analytics to a high-capacity Microsoft Fabric (F64) Lakehouse architecture."
+ solution: [
+    "Acted as Lead Data Architect to design the end-to-end enterprise data model and consult with engineering teams on cloud infrastructure.",
+    "Architected a Hybrid Medallion Architecture in Microsoft Fabric, leveraging Bronze and Silver Lakehouse layers alongside a Gold Data Warehouse.",
+    "Built and integrated a modern AP/AR financial system based on Dynamics 365 Business Central, utilizing incremental loads for point-in-time accuracy.",
+    "Established an Azure SQL Database repository as a fallback strategy to securely archive and retain all historical legacy data.",
+    "Tech Stack Used: Microsoft Fabric, Azure SQL Database, Dynamics 365 Business Central, Data Lakehouse, ETL/ELT."
   ],
-  businessOutcomes: [
-    "Achieved a single source of truth for finance and operational reporting across the enterprise.",
-    "Eliminated massive data movement and duplication by utilizing Microsoft Fabric's OneLake.",
-    "Reduced reporting latency to near-zero by transitioning Power BI to Direct Lake mode on Delta Parquet files."
+businessOutcomes: [
+    "Delivered a fully-fledged enterprise database empowering the organization with robust, centralized reporting capabilities.",
+    "Enabled accurate point-in-time temporal reporting for finance, including complex backdated transactional visibility.",
+    "Successfully safeguarded and archived all legacy system data within a secure, queryable database.",
+    "Provided flexible storage capable of handling unstructured data by leveraging the new Bronze and Silver Lakehouse architecture."
   ],
-  technologies: ["Microsoft Fabric (F64)", "Azure Synapse Analytics", "Azure Data Factory", "Azure Databricks", "Azure SQL DB", "Power BI", "Oracle", "IBM DB2"],
-  architectureHighlights: [
-    "Medallion data architecture (Bronze, Silver, Gold).",
-    "Fabric OneLake unified storage integration.",
-    "Direct Lake semantic reporting models."
-  ],
+
   architectureImage: "/images/masc-arc.png",
 };
 

@@ -2,7 +2,8 @@ export interface Project {
   id: number;
 
   client: string;
-
+  menuname: string;
+  category: string;
   title: string;
 
   role: string;
@@ -17,13 +18,13 @@ export interface Project {
 
   solution: string[];
 
-  responsibilities: string[];
+  //responsibilities: string[];
 
   businessOutcomes: string[];
 
-  technologies: string[];
+  //technologies: string[];
 
-  architectureHighlights: string[];
+  //architectureHighlights: string[];
 
   architectureImage: string;
 }

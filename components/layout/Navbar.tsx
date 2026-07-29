@@ -8,6 +8,7 @@ const navItems = [
   { title: "Execution", href: "/execution" },
   { title: "Projects", href: "/portfolio" },
   { title: "DQMs", href: "/dqm" },
+  { title: "Licensing", href: "/licensing" },
   { title: "AI Lab", href: "/ai" },
 ];
 
