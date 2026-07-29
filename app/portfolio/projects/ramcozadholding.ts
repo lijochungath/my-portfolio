@@ -1,63 +1,40 @@
-import { Project } from "../types";
+import type { Project } from "../types";
 
 const ramcozadholding: Project = {
-  id: 4,
+  id: 4, // Adjust this ID as needed to match your sequence
   client: "Zad Holding",
+  menuname: "Ramco ERP",
   category: "ERP",
-  title: "Ramco ERP Implementation",
+  title: "Enterprise ERP Implementation & Analytics",
   role: "Lead Analytics & Reporting Developer",
-  industry:
-    "Manufacturing",
-  duration: "2019 - 2021",
+  industry: "Manufacturing / FMCG",
+  duration: "2 Years (2019 - 2021)",
   status: "Completed",
-  businessChallenge: [
-    " Consolidated reporting across multiple subsidiaries.",
-    " Data silo's are present Depertment and BU wise.",
-    "Lack of standardized reporting processes across subsidiaries.",
-    "Manual reconciliation of inter-company transactions.",
   
+  // SECTION 1: THE PROBLEM
+  businessChallenge: [
+    "Enterprise data was heavily siloed across distinct departments and business units, preventing holistic organizational visibility.",
+    "Lacked standardized reporting processes across multiple subsidiaries, forcing a heavy reliance on manual inter-company reconciliations.",
+    "Required a unified enterprise reporting strategy capable of consolidating fragmented subsidiary data into a single, reliable source of truth."
   ],
 
+  // SECTION 2: THE EXECUTION (Merged Solution, Responsibilities, Architecture & Tech)
   solution: [
-    "By using Ramco different modules to migrate all departmental data into a single platform.",
-    "Single source of truth for all enterprise data, enabling accurate and consistent reporting.",
-    "Engineered custom temporal data models supporting historical (point-in-time) reporting.",
-    "Standardized enterprise reporting across all Zad Holding subsidiaries.",
+    "Led the enterprise reporting architecture design for a large-scale Ramco ERP implementation.",
+    "Engineered a centralized SQL reporting database to ingest, map, and consolidate departmental data from various Ramco modules.",
+    "Developed custom temporal data models to accurately support complex historical and point-in-time reporting requirements.",
+    "Architected an advanced Qlik Sense analytics layer, designing executive KPI dashboards and presenting actionable insights directly to senior stakeholders.",
+    "Tech Stack Used: Ramco ERP, SQL Server, Qlik Sense, Enterprise Data Modeling."
   ],
 
-  responsibilities: [
-    "Led enterprise reporting architecture design for the Ramco ERP implementation.",
-    "Developed Qlik Sense executive dashboards and analytical reports.",
-    "Collaborated with finance, operations, and ERP implementation consultants.",
-    "Explained the dashboards to executive stakeholders.",
-
-  ],
-
+  // SECTION 3: THE IMPACT
   businessOutcomes: [
-    "Reduced manual reconciliation activities across subsidiaries.",
-    "Standardized reporting processes across multiple business units.",
-    "Delivered the technical foundation for the organization's SAP migration initiative.",
-    "The project was not completed on time and within budget.",
-    "Consolidated reporting across all Zad Holding subsidiaries not achieved.",
-    "The project failed to deliver intercompany transaction reporting."
-
+    "Successfully standardized reporting processes and significantly reduced manual data reconciliation efforts across multiple business units.",
+    "Established a robust data architecture that provided executives with accurate, consistent, and cross-subsidiary analytical capabilities.",
+    "Delivered a highly structured technical data foundation that ultimately prepared the organization for its future enterprise SAP migration initiative."
   ],
 
-  technologies: [
-    "Ramco ERP",
-    "SQL Server",
-    "Qlik Sense" ],
-
-  architectureHighlights: [
-    "Enterprise Reporting Architecture",
-    "SQL Reporting Database",
-    "Qlik Sense Analytics Layer",
-    "Cross-Company Reconciliation",
-    "Executive KPI Dashboards",
-    "SAP Migration Readiness",
-
-  ],
-
-  architectureImage: "/architecture/ramco-zad-enterprise-architecture.png",
+  architectureImage: "/images/ramco-zad-enterprise-architecture.png",
 };
+
 export default ramcozadholding;
