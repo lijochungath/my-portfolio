@@ -11,7 +11,7 @@ export default function Home() {
         </h1>
         
         <h2 className="text-2xl md:text-3xl font-semibold text-slate-300">
-           Architecting Scalable Data Solutions
+           Transforming Complex Data into Strategic Assets
         </h2>
         
         <p className="text-lg md:text-xl text-slate-400 max-w-3xl mx-auto leading-relaxed">
@@ -21,10 +21,10 @@ export default function Home() {
         {/* Call to Action Navigation Buttons */}
         <div className="flex flex-wrap justify-center gap-6 pt-8">
           <Link 
-            href="/case-studies" 
+            href="/portfolio" 
             className="px-8 py-4 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-lg transition-all shadow-lg shadow-blue-500/30"
           >
-            View Enterprise Case Studies
+            View Projects
           </Link>
           
           <Link 

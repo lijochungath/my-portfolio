@@ -9,7 +9,7 @@ const masc: Project = {
   role: "Data Architect",
   industry: "Agriculture",
   duration: "24 Months",
-  status: "Completed",
+  status: "Current",
 businessChallenge: [
     "Enterprise data was heavily fragmented across multiple legacy systems from different vendors, creating severe vendor lock-in.",
     "Required a centralized Data Warehouse to consolidate data and streamline enterprise reporting from all legacy sources.",

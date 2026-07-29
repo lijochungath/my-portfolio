@@ -9,6 +9,7 @@ const navItems = [
   { title: "Projects", href: "/portfolio" },
   { title: "DQMs", href: "/dqm" },
   { title: "Licensing", href: "/licensing" },
+  { title: "Thoughts", href: "/thoughts" },
   { title: "AI Lab", href: "/ai" },
 ];
 
