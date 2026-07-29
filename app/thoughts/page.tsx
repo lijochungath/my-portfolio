@@ -9,11 +9,10 @@ export default function ThoughtsPage() {
         
         {/* Page Header */}
         <div className="text-center mb-16">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight mb-4 bg-gradient-to-r from-sky-400 via-blue-300 to-indigo-400 bg-clip-text text-transparent">
-            Architectural Insights & Lessons Learned
-          </h1>
+
           <p className="text-slate-400 text-base sm:text-lg max-w-2xl mx-auto">
-            Reflections from 20 years of building enterprise data platforms, scaling cloud migrations, and preparing foundations for autonomous AI agents.
+            Reflections from 20 years of building enterprise data platforms and scaling cloud migrations
+            
           </p>
         </div>
 
