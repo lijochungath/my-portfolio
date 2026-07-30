@@ -31,7 +31,7 @@ export const thoughtsData: Thought[] = [
     date: "May 2026",
     excerpt: "As organizations plan architectures for both traditional analytics and future AI agents, the comparison between Microsoft Fabric and Databricks is the most critical decision an architect makes.",
     statCallout: {
-      stat: "Choosing between Fabric and Databricks isn't about finding a universal winner; it's about matching platform strengths to your enterprise scale, team capabilities, and AI roadmap.",
+      stat: "Choosing between Fabric and Databricks isn't about finding a universal winner, it's about matching platform strengths to your enterprise scale, team capabilities, and AI roadmap.",
       source: "Architectural Decision Framework"
     },
     content: [
