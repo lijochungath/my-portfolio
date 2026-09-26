@@ -7,6 +7,7 @@ const navItems = [
   { title: "Experience", href: "/experience" },
   { title: "Execution", href: "/execution" },
   { title: "Projects", href: "/portfolio" },
+  { title: "Proposals", href: "/rfp" },
   { title: "DQMs", href: "/dqm" },
   { title: "Licensing", href: "/licensing" },
   { title: "Thoughts", href: "/thoughts" },
