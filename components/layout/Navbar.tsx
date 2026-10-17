@@ -5,6 +5,7 @@ import { FaGithub, FaLinkedin } from "react-icons/fa";
 
 const navItems = [
   { title: "Experience", href: "/experience" },
+  { title: "Roles", href: "/roles" },
   { title: "Execution", href: "/execution" },
   { title: "Projects", href: "/portfolio" },
   { title: "Proposals", href: "/rfp" },
